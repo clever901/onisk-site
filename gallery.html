@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Onisk — Gallery</title>
+<link rel="stylesheet" href="style.css?v=22" />
+</head>
+<body>
+
+<div class="page-wrap" id="page-wrap">
+
+<img class="hero-mobile-fixed-bg" data-category="fantasy" src="images/hero/mobile/fantasy-mobile-bg.webp" alt="" />
+<img class="hero-mobile-fixed-bg" data-category="dark-art" src="images/hero/mobile/dark-art-mobile-bg.webp" alt="" />
+<img class="hero-mobile-fixed-bg" data-category="portraits" src="images/hero/mobile/portraits-mobile-bg.webp" alt="" />
+<img class="hero-mobile-fixed-bg" data-category="surreal" src="images/hero/mobile/surreal-mobile-bg.webp" alt="" />
+<img class="hero-mobile-fixed-bg" data-category="fashion" src="images/hero/mobile/fashion-mobile-bg.webp" alt="" />
+<img class="hero-mobile-fixed-bg" data-category="cartoon" src="images/hero/mobile/cartoon-mobile-bg.webp" alt="" />
+
+<img class="gallery-decor-fullheight" id="page-decor-left" src="" alt="" hidden />
+
+<div class="hero hero-gallery" id="gallery-hero">
+  <img class="hero-bg-portrait" id="hero-img-left" src="images/hero/portrait-glass.webp" alt="" />
+  <img class="hero-bg-cat" id="hero-img-right" src="images/hero/cat-city.webp" alt="" />
+  <div class="hero-top-fade-left"></div>
+  <div class="hero-right-fade-portraits"></div>
+  <div class="hero-left-fade-portraits"></div>
+  <div class="hero-moon"></div>
+  <div class="hero-stars"></div>
+
+  <header class="site-header">
+    <div class="logo"><img src="images/hero/logo-onisk.webp" alt="Onisk" class="logo-img" /></div>
+    <nav class="main-nav">
+      <a href="index.html" data-i18n="nav.home">Home</a>
+      <a href="gallery.html" class="active" data-i18n="nav.gallery">Gallery</a>
+      <a href="artist.html" data-i18n="nav.artist">Artist</a>
+      <a href="index.html#contacts" data-i18n="nav.contacts">Contacts</a>
+    </nav>
+    <div class="lang-switch">
+      <button data-lang="en" class="active">EN</button> <span>|</span>
+      <button data-lang="uk">UKR</button> <span>|</span>
+      <button data-lang="ru">RU</button>
+    </div>
+    <button class="burger" id="burger-btn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <nav class="mobile-menu" id="mobile-menu">
+    <a href="index.html" data-i18n="nav.home">Home</a>
+    <a href="gallery.html" data-i18n="nav.gallery">Gallery</a>
+    <a href="artist.html" data-i18n="nav.artist">Artist</a>
+    <a href="index.html#contacts" data-i18n="nav.contacts">Contacts</a>
+    <div class="mobile-lang">
+      <button data-lang="en" class="active">EN</button>
+      <button data-lang="uk">UKR</button>
+      <button data-lang="ru">RU</button>
+    </div>
+  </nav>
+
+  <div class="hero-content hero-content-gallery">
+    <h1 class="gallery-page-title" data-i18n="gallery.title">GALLERY</h1>
+    <p class="gallery-page-subtitle" id="gallery-category-label"></p>
+
+    <div class="section-divider"><span></span><i>&#10022;</i><span></span></div>
+
+    <div class="tag-filter tag-filter-desktop" id="tag-filter">
+      <!-- заполняется скриптом из works.js -->
+    </div>
+    <select class="tag-filter-mobile" id="tag-filter-mobile">
+      <!-- заполняется скриптом -->
+    </select>
+  </div>
+</div>
+
+<section class="full-gallery-section">
+  <img class="gallery-decor gallery-decor-left" id="hero-decor-left" src="" alt="" hidden />
+  <img class="gallery-decor gallery-decor-right" id="hero-decor-right" src="" alt="" hidden />
+
+  <div class="work-grid masonry" id="full-grid">
+    <!-- работы текущей страницы, рендерятся скриптом -->
+  </div>
+
+  <div class="gallery-controls">
+    <a href="#" class="btn btn-back" id="back-link">← <span data-i18n="gallery.backHome">Back to Home</span></a>
+    <div class="pagination" id="pagination">
+      <!-- рендерится скриптом -->
+    </div>
+    <div class="search-box">
+      <input type="text" id="search-input" data-i18n-placeholder="gallery.search" placeholder="Search artwork..." />
+      <i class="icon-search"></i>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+  <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous">&#8249;</button>
+  <img id="lightbox-img" src="" alt="" />
+  <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next">&#8250;</button>
+  <p id="lightbox-tags"></p>
+</div>
+
+<script src="data/works.js"></script>
+<script src="data/hero-categories.js"></script>
+<script src="i18n/i18n.js"></script>
+<script src="script.js?v=8"></script>
+<script src="gallery.js?v=6"></script>
+</body>
+</html>

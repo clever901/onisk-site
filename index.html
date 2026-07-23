@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Onisk — AI Art, Dark Fantasy, Surreal Visions</title>
+<link rel="stylesheet" href="style.css?v=22" />
+<style>
+  @media (max-width: 900px) {
+    body.page-home .hero-bg-portrait,
+    body.page-home .hero-bg-cat { display: none !important; }
+    body.page-home .hero {
+      background-image: url('images/hero/mobile/home-mobile-bg.webp?v=6') !important;
+      background-size: cover !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
+      min-height: 100vh !important;
+    }
+  }
+</style>
+</head>
+<body class="page-home">
+
+<img class="hero-mobile-fixed-bg" data-category="home" src="images/hero/mobile/home-mobile-bg.webp" alt="" />
+
+<div class="hero">
+  <img class="hero-bg-portrait" src="images/hero/portrait-glass.webp" alt="" />
+  <img class="hero-bg-cat hero-cat-tint" src="images/hero/cat-city.webp" alt="" />
+  <div class="hero-moon"></div>
+  <div class="hero-stars"></div>
+
+  <header class="site-header">
+    <div class="logo"><img src="images/hero/logo-onisk.webp" alt="Onisk" class="logo-img" /></div>
+    <nav class="main-nav">
+      <a href="index.html" class="active" data-i18n="nav.home">Home</a>
+      <a href="gallery.html" data-i18n="nav.gallery">Gallery</a>
+      <a href="artist.html" data-i18n="nav.artist">Artist</a>
+      <a href="#contacts" data-i18n="nav.contacts">Contacts</a>
+    </nav>
+    <div class="lang-switch">
+      <button data-lang="en" class="active">EN</button> <span>|</span>
+      <button data-lang="uk">UKR</button> <span>|</span>
+      <button data-lang="ru">RU</button>
+    </div>
+    <button class="burger" id="burger-btn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <nav class="mobile-menu" id="mobile-menu">
+    <a href="index.html" data-i18n="nav.home">Home</a>
+    <a href="gallery.html" data-i18n="nav.gallery">Gallery</a>
+    <a href="artist.html" data-i18n="nav.artist">Artist</a>
+    <a href="#contacts" data-i18n="nav.contacts">Contacts</a>
+    <div class="mobile-lang">
+      <button data-lang="en" class="active">EN</button>
+      <button data-lang="uk">UKR</button>
+      <button data-lang="ru">RU</button>
+    </div>
+  </nav>
+
+  <div class="hero-content">
+    <h1 class="hero-title">
+      <img src="images/hero/logo-onisk.webp" alt="Onisk" />
+    </h1>
+    <p class="hero-subtitle" data-i18n="hero.subtitle">AI Art • Dark Fantasy • Surreal Visions</p>
+
+    <div class="section-divider"><span></span><i>&#10022;</i><span></span></div>
+
+    <h2 class="gallery-heading" data-i18n="gallery.title">Gallery</h2>
+
+    <div class="tag-filter tag-filter-desktop" id="tag-filter">
+      <!-- заполняется скриптом из works.js -->
+    </div>
+    <select class="tag-filter-mobile" id="tag-filter-mobile">
+      <!-- заполняется скриптом -->
+    </select>
+  </div>
+</div>
+
+<div class="lower-content">
+
+
+  <section class="gallery-preview" id="gallery">
+    <div class="work-grid" id="preview-grid">
+      <!-- featured-карточки, рендерятся скриптом -->
+    </div>
+    <a class="btn" href="gallery.html" id="view-gallery-link" data-i18n="gallery.viewAll">View full gallery →</a>
+  </section>
+
+  <section class="artist-section" id="artist">
+    <div class="artist-photo">
+      <img src="images/artist/oksana-portrait.webp" alt="Oksana — Onisk" />
+    </div>
+    <div class="artist-bio">
+      <h2 data-i18n="artist.title">Artist</h2>
+      <p data-i18n="artist.bioShort.p1">I am Onisk — an AI visual artist creating atmospheric worlds between imagination, emotion, and technology.</p>
+      <p data-i18n="artist.bioShort.p2">Through dark fantasy, surreal visions, fashion-inspired characters, and dreamlike stories, I use AI as a creative studio where hidden worlds become visible.</p>
+      <p data-i18n="artist.bioShort.p3">Each image is a doorway beyond the ordinary.</p>
+      <a class="btn" href="artist.html" data-i18n="artist.more">Learn more about Onisk →</a>
+    </div>
+  </section>
+
+  <section class="contacts-section" id="contacts">
+    <h2 data-i18n="contacts.title">Contacts</h2>
+    <ul class="contacts-list">
+      <li>
+        <i class="icon icon-instagram"></i>
+        <div><span data-i18n="contacts.instagram">Instagram</span><br /><a href="https://instagram.com/oniskartai" target="_blank" rel="noopener">@oniskartai</a></div>
+      </li>
+      <li>
+        <i class="icon icon-mail"></i>
+        <div><span data-i18n="contacts.email">Email</span><br /><a href="mailto:oksana.korgan@gmail.com">oksana.korgan@gmail.com</a></div>
+      </li>
+      <li>
+        <i class="icon icon-telegram"></i>
+        <div><span data-i18n="contacts.telegram">Telegram</span><br /><a href="https://t.me/Oksanakorhan" target="_blank" rel="noopener">@Oksanakorhan</a></div>
+      </li>
+    </ul>
+    <p class="quote" data-i18n="contacts.quote">Art is not made, it is revealed.</p>
+  </section>
+</div>
+
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+  <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous">&#8249;</button>
+  <img id="lightbox-img" src="" alt="" />
+  <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next">&#8250;</button>
+  <p id="lightbox-tags"></p>
+</div>
+
+<script src="data/works.js"></script>
+<script src="i18n/i18n.js"></script>
+<script src="script.js?v=8"></script>
+</body>
+</html>
