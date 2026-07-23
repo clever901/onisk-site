@@ -1,0 +1,15 @@
+{
+  "nav.home": "Головна",
+  "nav.gallery": "Галерея",
+  "nav.artist": "Художниця",
+  "nav.contacts": "Контакти",
+  "hero.subtitle": "AI Art • Темне фентезі • Сюрреалістичні візії",
+  "gallery.title": "Галерея",
+  "gallery.viewAll": "Дивитися всю галерею →",
+  "artist.title": "Художниця",
+  "artist.bio": "Коротка біографія.",
+  "artist.bioFull": "Повна біографія.",
+  "artist.more": "Дізнатися більше про Onisk →",
+  "contacts.title": "Контакти",
+  "contacts.quote": "Мистецтво не створюється, воно розкривається."
+}

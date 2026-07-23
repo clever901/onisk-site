@@ -1,0 +1,15 @@
+{
+  "nav.home": "Главная",
+  "nav.gallery": "Галерея",
+  "nav.artist": "Художник",
+  "nav.contacts": "Контакты",
+  "hero.subtitle": "AI Art • Тёмное фэнтези • Сюрреалистичные видения",
+  "gallery.title": "Галерея",
+  "gallery.viewAll": "Смотреть всю галерею →",
+  "artist.title": "Художник",
+  "artist.bio": "Краткая биография.",
+  "artist.bioFull": "Полная биография.",
+  "artist.more": "Узнать больше об Onisk →",
+  "contacts.title": "Контакты",
+  "contacts.quote": "Искусство не создаётся, оно раскрывается."
+}

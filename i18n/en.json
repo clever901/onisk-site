@@ -1,0 +1,15 @@
+{
+  "nav.home": "Home",
+  "nav.gallery": "Gallery",
+  "nav.artist": "Artist",
+  "nav.contacts": "Contacts",
+  "hero.subtitle": "AI Art • Dark Fantasy • Surreal Visions",
+  "gallery.title": "Gallery",
+  "gallery.viewAll": "View full gallery →",
+  "artist.title": "Artist",
+  "artist.bio": "Short bio.",
+  "artist.bioFull": "Full bio.",
+  "artist.more": "Learn more about Onisk →",
+  "contacts.title": "Contacts",
+  "contacts.quote": "Art is not made, it is revealed."
+}
