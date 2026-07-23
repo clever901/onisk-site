@@ -764,7 +764,7 @@ body.body-portraits .hero-left-fade-portraits {
 
 .work-card:hover {
   border-color: var(--accent-pink);
-  box-shadow: var(--glow);
+  box-shadow: 0 0 22px rgba(188,110,170,0.55), 0 0 8px rgba(188,110,170,0.35);
 }
 
 /* Мобильная версия / сенсорные экраны: нет курсора мыши, поэтому :hover
@@ -777,7 +777,7 @@ body.body-portraits .hero-left-fade-portraits {
 
   .work-card:active {
     border-color: var(--accent-pink);
-    box-shadow: var(--glow);
+    box-shadow: 0 0 22px rgba(188,110,170,0.55), 0 0 8px rgba(188,110,170,0.35);
     transition: border-color 0.15s, box-shadow 0.15s;
   }
 }
@@ -790,7 +790,7 @@ body.body-portraits .hero-left-fade-portraits {
 
 .work-card.touch-active {
   border-color: var(--accent-pink);
-  box-shadow: var(--glow);
+  box-shadow: 0 0 22px rgba(188,110,170,0.55), 0 0 8px rgba(188,110,170,0.35);
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
@@ -809,7 +809,7 @@ body.body-portraits .hero-left-fade-portraits {
 .btn:hover {
   border-color: var(--accent-pink);
   color: var(--accent-pink);
-  box-shadow: var(--glow);
+  box-shadow: 0 0 22px rgba(188,110,170,0.55), 0 0 8px rgba(188,110,170,0.35);
 }
 
 .artist-section {
@@ -827,7 +827,7 @@ body.body-portraits .hero-left-fade-portraits {
   display: flex;
   gap: 4rem;
   align-items: center;
-  padding: 3rem 3rem 6rem;
+  padding: 1.25rem 3rem 4rem;
   max-width: 1300px;
   margin: 0 auto;
   min-height: auto;
@@ -950,7 +950,7 @@ body.body-portraits .hero-left-fade-portraits {
 }
 
 .contacts-list li:hover .icon {
-  box-shadow: var(--glow);
+  box-shadow: 0 0 22px rgba(188,110,170,0.55), 0 0 8px rgba(188,110,170,0.35);
 }
 
 .icon::before {
@@ -1078,7 +1078,7 @@ body.body-portraits .hero-left-fade-portraits {
 .lightbox-nav:hover {
   color: var(--accent-warm);
   border-color: var(--accent-pink);
-  box-shadow: var(--glow);
+  box-shadow: 0 0 22px rgba(188,110,170,0.55), 0 0 8px rgba(188,110,170,0.35);
 }
 
 .lightbox-prev { left: 2rem; }
@@ -1202,7 +1202,7 @@ body.body-portraits .hero-left-fade-portraits {
 .pagination button.active {
   color: var(--text-primary);
   border-color: var(--accent-pink);
-  box-shadow: var(--glow);
+  box-shadow: 0 0 22px rgba(188,110,170,0.55), 0 0 8px rgba(188,110,170,0.35);
 }
 
 .pagination button:disabled {
