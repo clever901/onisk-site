@@ -211,6 +211,21 @@ document.addEventListener('DOMContentLoaded', () => {
   renderFilters();
   renderGrid();
 
+  // ---------- переход на #contacts с другой страницы ----------
+  // Если на странице есть тяжёлые картинки (hero, фото художницы), браузер
+  // может прыгнуть к якорю ДО того, как они полностью загрузятся — высота
+  // страницы на тот момент ещё не окончательная, и итоговая прокрутка
+  // получается "не туда". Ждём полной загрузки (событие window.load,
+  // включая все картинки) и только тогда прокручиваем к нужному разделу.
+  if (window.location.hash) {
+    const scrollTarget = document.querySelector(window.location.hash);
+    if (scrollTarget) {
+      window.addEventListener('load', () => {
+        scrollTarget.scrollIntoView({ block: 'start' });
+      });
+    }
+  }
+
   // ---------- touch highlight for work cards (mobile) ----------
   // CSS @media(hover:none) не всегда срабатывает в эмуляторах устройств,
   // поэтому подсвечиваем карточку по тапу напрямую через touch-события.
