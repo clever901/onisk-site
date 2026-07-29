@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Onisk — Artist</title>
-<link rel="stylesheet" href="style.css?v=32" />
+<link rel="stylesheet" href="style.css?v=34" />
 </head>
 <body>
 
@@ -70,8 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.lang-switch button, .mobile-lang button').forEach(btn => {
     btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
   });
-  const burgerBtn = document.getElementById('burger-btn');
-  if (burgerBtn) burgerBtn.addEventListener('click', () => document.body.classList.toggle('menu-open'));
+  // Делегирование на document — тот же надёжный способ, что и на Главной
+  // странице: сработает даже если кнопка перекрывается или перерисовывается.
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('#burger-btn');
+    if (btn) document.body.classList.toggle('menu-open');
+  });
 });
 </script>
 <script src="sparkle-cursor.js"></script>
