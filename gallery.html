@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Onisk — Gallery</title>
-<link rel="stylesheet" href="style.css?v=30" />
+<link rel="stylesheet" href="style.css?v=31" />
 </head>
 <body>
 
@@ -22,8 +22,10 @@
 <img class="gallery-decor-fullheight" id="page-decor-left" src="" alt="" hidden />
 
 <div class="hero hero-gallery" id="gallery-hero">
+  <div class="hero-blur-wash"></div>
   <img class="hero-bg-portrait" id="hero-img-left" alt="" fetchpriority="high" decoding="async" />
   <img class="hero-bg-cat" id="hero-img-right" alt="" fetchpriority="high" decoding="async" />
+  <div class="hero-veil" id="hero-veil"></div>
   <script>
     (function () {
       var CATEGORY_ORDER = ['Dark Art', 'Portraits', 'Fantasy', 'Surreal', 'Fashion', 'Cartoon / Animation'];
@@ -33,10 +35,44 @@
       var heroData = (typeof HERO_CATEGORIES !== 'undefined' && HERO_CATEGORIES[tag]) || (typeof HERO_CATEGORIES !== 'undefined' && HERO_CATEGORIES['All']);
       var left = document.getElementById('hero-img-left');
       var right = document.getElementById('hero-img-right');
+
+      // Пока фон категории грузится — под картинкой видна мягкая цветная
+      // дымка (hero-blur-wash), а сама картинка плавно проявляется, когда
+      // догрузилась. При переключении вкладок фильтра (gallery.js,
+      // applyHero) добавляется короткое затемнение (hero-veil) перед сменой
+      // src, чтобы не было резкого "скачка" между картинками.
+      window.HeroTransition = (function () {
+        function revealWhenLoaded(imgs) {
+          var veil = document.getElementById('hero-veil');
+          var remaining = imgs.length;
+          function done(img) {
+            if (img) img.classList.add('hero-img-loaded');
+            remaining--;
+            if (remaining <= 0 && veil) veil.classList.remove('hero-veil-visible');
+          }
+          if (remaining === 0 && veil) veil.classList.remove('hero-veil-visible');
+          imgs.forEach(function (img) {
+            img.classList.remove('hero-img-loaded');
+            if (img.complete && img.naturalWidth !== 0) {
+              done(img);
+            } else {
+              img.addEventListener('load', function () { done(img); }, { once: true });
+              img.addEventListener('error', function () { done(img); }, { once: true });
+            }
+          });
+        }
+        function veilOn() {
+          var veil = document.getElementById('hero-veil');
+          if (veil) veil.classList.add('hero-veil-visible');
+        }
+        return { revealWhenLoaded: revealWhenLoaded, veilOn: veilOn };
+      })();
+
       if (heroData) {
         if (left) left.src = heroData.left;
         if (right) right.src = heroData.right;
       }
+      window.HeroTransition.revealWhenLoaded([left, right].filter(Boolean));
     })();
   </script>
   <div class="hero-top-fade-left"></div>
@@ -103,7 +139,6 @@
     <div class="pagination" id="pagination">
       <!-- рендерится скриптом -->
     </div>
-   
   </div>
 </section>
 
@@ -122,7 +157,7 @@
 <script src="i18n/i18n.js"></script>
 <script src="likes.js"></script>
 <script src="script.js?v=11"></script>
-<script src="gallery.js?v=12"></script>
+<script src="gallery.js?v=13"></script>
 <script src="sparkle-cursor.js"></script>
 </body>
 </html>
