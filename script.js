@@ -66,6 +66,24 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileEl.onchange = () => { window.location.href = mobileEl.value; };
   }
 
+  // ---------- likes (localStorage, без общего счётчика) ----------
+
+  function makeLikeBtn(slug) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'like-btn';
+    btn.setAttribute('aria-label', 'Like');
+    btn.innerHTML = '&#10084;';
+    if (typeof Likes !== 'undefined' && Likes.isLiked(slug)) btn.classList.add('liked');
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (typeof Likes === 'undefined') return;
+      const liked = Likes.toggle(slug);
+      btn.classList.toggle('liked', liked);
+    });
+    return btn;
+  }
+
   // ---------- render grid ----------
   // На главной превью всегда показывает featured-работы без фильтра —
   // фильтрация по категориям происходит только на странице полной галереи.
@@ -85,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
       img.alt = '';
       img.loading = 'lazy';
       card.appendChild(img);
+      card.appendChild(makeLikeBtn(work.slug));
       card.addEventListener('click', () => openLightbox(work, index));
       grid.appendChild(card);
     });
@@ -99,10 +118,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightbox = document.getElementById('lightbox');
     const img = document.getElementById('lightbox-img');
     const tags = document.getElementById('lightbox-tags');
+    const likeBtn = document.getElementById('lightbox-like');
     if (!lightbox || !img || !tags) return;
     currentLightboxIndex = typeof index === 'number' ? index : currentGridWorks.indexOf(work);
     img.src = work.full;
     tags.textContent = (work.tags[currentLang] || work.tags.en).join(' · ');
+    if (likeBtn) {
+      likeBtn.classList.toggle('liked', typeof Likes !== 'undefined' && Likes.isLiked(work.slug));
+      likeBtn.onclick = () => {
+        if (typeof Likes === 'undefined') return;
+        const liked = Likes.toggle(work.slug);
+        likeBtn.classList.toggle('liked', liked);
+        // синхронизируем сердечко на карточке в сетке, если она уже отрисована
+        const gridBtn = document.querySelectorAll('.work-card')[currentLightboxIndex];
+        if (gridBtn) {
+          const heart = gridBtn.querySelector('.like-btn');
+          if (heart) heart.classList.toggle('liked', liked);
+        }
+      };
+    }
     lightbox.hidden = false;
   }
 
