@@ -515,6 +515,55 @@ body.body-portraits .hero-left-fade-portraits {
   display: none;
 }
 
+/* Переход между фонами категорий на странице Галереи: мягкая цветная
+   дымка видна, пока картинка ещё грузится; сама картинка проявляется
+   плавно; при переключении вкладки фильтра (gallery.js, applyHero)
+   ненадолго добавляется затемнение (hero-veil), чтобы скрыть "скачок"
+   между старым и новым фоном. */
+#gallery-hero .hero-blur-wash {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(circle at 30% 35%, rgba(188,110,170,0.20), transparent 60%),
+    radial-gradient(circle at 75% 65%, rgba(204,175,152,0.16), transparent 55%);
+  filter: blur(46px);
+  pointer-events: none;
+}
+
+#gallery-hero .hero-bg-portrait,
+#gallery-hero .hero-bg-cat {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+#gallery-hero .hero-bg-portrait.hero-img-loaded,
+#gallery-hero .hero-bg-cat.hero-img-loaded {
+  opacity: 1;
+}
+
+.hero-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.hero-veil-visible {
+  opacity: 0.92;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #gallery-hero .hero-bg-portrait,
+  #gallery-hero .hero-bg-cat,
+  .hero-veil {
+    transition: none;
+  }
+}
+
 .site-header {
   position: relative;
   z-index: 999;
