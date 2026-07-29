@@ -220,9 +220,21 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.location.hash) {
     const scrollTarget = document.querySelector(window.location.hash);
     if (scrollTarget) {
-      window.addEventListener('load', () => {
-        scrollTarget.scrollIntoView({ block: 'start' });
-      });
+      const doScroll = () => scrollTarget.scrollIntoView({ block: 'start' });
+      // Если картинки уже закешированы браузером, событие "load" может
+      // сработать раньше, чем мы успеем на него подписаться — тогда просто
+      // проверяем текущее состояние и скроллим сразу.
+      if (document.readyState === 'complete') {
+        doScroll();
+      } else {
+        window.addEventListener('load', doScroll);
+      }
+      // Загружаемый шрифт сайта (Cormorant Garamond) может доехать уже
+      // после события "load" и слегка сдвинуть текст/высоту страницы —
+      // подстраиваемся ещё раз, когда шрифты точно готовы.
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(doScroll);
+      }
     }
   }
 
