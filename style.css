@@ -1589,7 +1589,10 @@ body.body-portraits .hero-left-fade-portraits {
   body.body-gallery-all .hero-moon {
     display: none !important;
   }
-
+#gallery-hero .hero-veil,
+  #gallery-hero .hero-blur-wash {
+    display: none !important;
+  }
   body.body-fantasy .hero::before,
   body.page-home .hero::before,
   body.body-dark-art .hero::before,
