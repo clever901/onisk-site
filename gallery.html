@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Onisk — Gallery</title>
-<link rel="stylesheet" href="style.css?v=31" />
+<link rel="stylesheet" href="style.css?v=32" />
 </head>
 <body>
 
@@ -42,15 +42,28 @@
       // applyHero) добавляется короткое затемнение (hero-veil) перед сменой
       // src, чтобы не было резкого "скачка" между картинками.
       window.HeroTransition = (function () {
-        function revealWhenLoaded(imgs) {
+        var MIN_VEIL_MS = 260; // минимальное время, чтобы затемнение точно успело быть заметным
+        var veilShownAt = 0;
+        function hideVeil() {
           var veil = document.getElementById('hero-veil');
+          if (!veil) return;
+          var elapsed = performance.now() - veilShownAt;
+          if (elapsed >= MIN_VEIL_MS) {
+            veil.classList.remove('hero-veil-visible');
+          } else {
+            setTimeout(function () {
+              veil.classList.remove('hero-veil-visible');
+            }, MIN_VEIL_MS - elapsed);
+          }
+        }
+        function revealWhenLoaded(imgs) {
           var remaining = imgs.length;
           function done(img) {
             if (img) img.classList.add('hero-img-loaded');
             remaining--;
-            if (remaining <= 0 && veil) veil.classList.remove('hero-veil-visible');
+            if (remaining <= 0) hideVeil();
           }
-          if (remaining === 0 && veil) veil.classList.remove('hero-veil-visible');
+          if (remaining === 0) hideVeil();
           imgs.forEach(function (img) {
             img.classList.remove('hero-img-loaded');
             if (img.complete && img.naturalWidth !== 0) {
@@ -64,6 +77,7 @@
         function veilOn() {
           var veil = document.getElementById('hero-veil');
           if (veil) veil.classList.add('hero-veil-visible');
+          veilShownAt = performance.now();
         }
         return { revealWhenLoaded: revealWhenLoaded, veilOn: veilOn };
       })();
