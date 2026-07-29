@@ -794,6 +794,38 @@ body.body-portraits .hero-left-fade-portraits {
   transition: none;
 }
 
+/* Мерцающие звёздочки за курсором — см. sparkle-cursor.js */
+.cursor-sparkle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  line-height: 1;
+  transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  text-shadow: 0 0 6px currentColor;
+  animation: sparkle-twinkle 1100ms ease-out forwards;
+}
+
+@keyframes sparkle-twinkle {
+  0% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(0.4) rotate(0deg);
+  }
+  35% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotate(60deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5) rotate(140deg) translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-sparkle {
+    display: none;
+  }
+}
+
 /* Сердечко "лайк" на карточке работы — состояние хранится локально в
    браузере посетителя (см. likes.js), общего счётчика по всем посетителям
    нет. */
@@ -895,7 +927,7 @@ body.body-portraits .hero-left-fade-portraits {
 .artist-full {
   display: flex;
   gap: 4rem;
-  align-items: center;
+  align-items: flex-start;
   padding: 0.25rem 3rem 3rem;
   max-width: 1300px;
   margin: 0 auto;
@@ -929,7 +961,7 @@ body.body-portraits .hero-left-fade-portraits {
 .artist-full .artist-bio p {
   color: var(--text-secondary);
   font-size: 1.15rem;
-  max-width: 55ch;
+  max-width: 68ch;
   margin: 0 0 2rem;
 }
 
