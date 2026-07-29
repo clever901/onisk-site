@@ -48,8 +48,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroData = (typeof HERO_CATEGORIES !== 'undefined' && HERO_CATEGORIES[currentTag]) || HERO_CATEGORIES['All'];
     const left = document.getElementById('hero-img-left');
     const right = document.getElementById('hero-img-right');
-    // src уже выставлен раньше, синхронным inline-скриптом в gallery.html —
-    // здесь его больше не трогаем, чтобы не запускать повторную загрузку.
+    // На самой первой загрузке страницы src уже выставлен синхронным
+    // inline-скриптом в gallery.html (чтобы фон начал грузиться раньше).
+    // Здесь переустанавливаем его на всякий случай — если категория не
+    // изменилась, браузер не будет качать картинку заново (тот же src),
+    // а если изменилась (клик по вкладке фильтра без перезагрузки страницы) —
+    // именно так фон и обновляется.
+    if (left && heroData) left.src = heroData.left;
+    if (right && heroData) right.src = heroData.right;
 
     const moon = document.querySelector('.hero-moon');
     if (moon) moon.style.display = (heroData && heroData.noMoon) ? 'none' : '';
