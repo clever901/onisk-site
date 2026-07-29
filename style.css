@@ -1612,7 +1612,7 @@ body.body-portraits .hero-left-fade-portraits {
   body.body-gallery-all .hero {
     background-size: cover !important;
     background-repeat: no-repeat !important;
-    background-attachment: scroll;
+    background-attachment: fixed;
     min-height: 100vh;
   }
 
