@@ -188,6 +188,8 @@ body.body-fashion .hero::before {
 body.body-fashion .hero-top-fade-left {
   display: block;
   background: linear-gradient(to bottom, #0a0d0e 0%, rgba(10,13,14,0.92) 25%, rgba(10,13,14,0.6) 50%, rgba(10,13,14,0.25) 75%, transparent 100%);
+  mask-image: linear-gradient(to right, black 0%, black 78%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 0%, black 78%, transparent 100%);
 }
 
 .hero-botanical-tint {
