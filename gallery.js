@@ -53,8 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // изменилась, браузер не будет качать картинку заново (тот же src),
     // а если изменилась (клик по вкладке фильтра без перезагрузки страницы) —
     // именно так фон и обновляется.
+    if (window.HeroTransition) window.HeroTransition.veilOn();
     if (left && heroData) left.src = heroData.left;
     if (right && heroData) right.src = heroData.right;
+    if (window.HeroTransition) window.HeroTransition.revealWhenLoaded([left, right].filter(Boolean));
 
     const moon = document.querySelector('.hero-moon');
     if (moon) moon.style.display = (heroData && heroData.noMoon) ? 'none' : '';
