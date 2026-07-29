@@ -4,9 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Onisk — Gallery</title>
-<link rel="stylesheet" href="style.css?v=24" />
+<link rel="stylesheet" href="style.css?v=26" />
 </head>
 <body>
+
+<script src="data/hero-categories.js"></script>
 
 <div class="page-wrap" id="page-wrap">
 
@@ -20,8 +22,23 @@
 <img class="gallery-decor-fullheight" id="page-decor-left" src="" alt="" hidden />
 
 <div class="hero hero-gallery" id="gallery-hero">
-  <img class="hero-bg-portrait" id="hero-img-left" src="images/hero/portrait-glass.webp" alt="" />
-  <img class="hero-bg-cat" id="hero-img-right" src="images/hero/cat-city.webp" alt="" />
+  <img class="hero-bg-portrait" id="hero-img-left" alt="" fetchpriority="high" decoding="async" />
+  <img class="hero-bg-cat" id="hero-img-right" alt="" fetchpriority="high" decoding="async" />
+  <script>
+    (function () {
+      var CATEGORY_ORDER = ['Dark Art', 'Portraits', 'Fantasy', 'Surreal', 'Fashion', 'Cartoon / Animation'];
+      var params = new URLSearchParams(window.location.search);
+      var tag = params.get('tag');
+      if (!tag || CATEGORY_ORDER.indexOf(tag) === -1) tag = 'All';
+      var heroData = (typeof HERO_CATEGORIES !== 'undefined' && HERO_CATEGORIES[tag]) || (typeof HERO_CATEGORIES !== 'undefined' && HERO_CATEGORIES['All']);
+      var left = document.getElementById('hero-img-left');
+      var right = document.getElementById('hero-img-right');
+      if (heroData) {
+        if (left) left.src = heroData.left;
+        if (right) right.src = heroData.right;
+      }
+    })();
+  </script>
   <div class="hero-top-fade-left"></div>
   <div class="hero-right-fade-portraits"></div>
   <div class="hero-left-fade-portraits"></div>
@@ -100,13 +117,14 @@
   <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous">&#8249;</button>
   <img id="lightbox-img" src="" alt="" />
   <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next">&#8250;</button>
+  <button class="like-btn like-btn-lightbox" id="lightbox-like" type="button" aria-label="Like">&#10084;</button>
   <p id="lightbox-tags"></p>
 </div>
 
 <script src="data/works.js"></script>
-<script src="data/hero-categories.js"></script>
 <script src="i18n/i18n.js"></script>
-<script src="script.js?v=8"></script>
-<script src="gallery.js?v=6"></script>
+<script src="likes.js"></script>
+<script src="script.js?v=9"></script>
+<script src="gallery.js?v=10"></script>
 </body>
 </html>
