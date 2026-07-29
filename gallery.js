@@ -180,4 +180,242 @@ document.addEventListener('DOMContentLoaded', () => {
     renderGrid();
   }
 
-  // ----------
+  // ---------- filtering + search ----------
+
+  function getFilteredWorks() {
+    let works = (typeof WORKS !== 'undefined' ? WORKS : []).slice();
+    if (currentTag !== 'All') {
+      works = works.filter(w => getEnTags(w).includes(currentTag));
+    }
+    if (searchQuery.trim()) {
+      const q = searchQuery.trim().toLowerCase();
+      works = works.filter(w => {
+        const tagsAllLangs = [].concat(w.tags.ru, w.tags.en, w.tags.uk).join(' ').toLowerCase();
+        return tagsAllLangs.includes(q);
+      });
+    }
+    return works;
+  }
+
+  // ---------- likes (localStorage, без общего счётчика) ----------
+
+  function makeLikeBtn(slug) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'like-btn';
+    btn.setAttribute('aria-label', 'Like');
+    btn.innerHTML = '&#10084;';
+    if (typeof Likes !== 'undefined' && Likes.isLiked(slug)) btn.classList.add('liked');
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (typeof Likes === 'undefined') return;
+      const liked = Likes.toggle(slug);
+      btn.classList.toggle('liked', liked);
+    });
+    return btn;
+  }
+
+  // ---------- grid + pagination ----------
+
+  let currentPageItems = [];
+  let currentAllItems = [];
+  let currentLightboxIndex = -1;
+
+  function renderGrid() {
+    const grid = document.getElementById('full-grid');
+    if (!grid) return;
+    const all = getFilteredWorks();
+    currentAllItems = all;
+    const totalPages = Math.max(1, Math.ceil(all.length / PER_PAGE));
+    if (currentPage > totalPages) currentPage = totalPages;
+    const start = (currentPage - 1) * PER_PAGE;
+    const pageItems = all.slice(start, start + PER_PAGE);
+    currentPageItems = pageItems;
+
+    grid.innerHTML = '';
+    if (pageItems.length === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'empty-state';
+      empty.textContent = t('gallery.empty');
+      grid.appendChild(empty);
+    }
+    pageItems.forEach((work, index) => {
+      const card = document.createElement('div');
+      card.className = 'work-card';
+      const img = document.createElement('img');
+      img.src = work.preview;
+      img.alt = '';
+      img.loading = 'lazy';
+      card.appendChild(img);
+      card.appendChild(makeLikeBtn(work.slug));
+      card.addEventListener('click', () => openLightbox(work, start + index));
+      grid.appendChild(card);
+    });
+
+    renderPagination(totalPages);
+  }
+
+  function renderPagination(totalPages) {
+    const el = document.getElementById('pagination');
+    if (!el) return;
+    el.innerHTML = '';
+    if (totalPages <= 1) return;
+
+    const makeBtn = (label, page, opts = {}) => {
+      const btn = document.createElement('button');
+      btn.textContent = label;
+      if (opts.active) btn.classList.add('active');
+      if (opts.disabled) btn.disabled = true;
+      btn.addEventListener('click', () => { currentPage = page; renderGrid(); window.scrollTo({ top: document.querySelector('.full-gallery-section').offsetTop - 40, behavior: 'smooth' }); });
+      return btn;
+    };
+
+    el.appendChild(makeBtn('‹', Math.max(1, currentPage - 1), { disabled: currentPage === 1 }));
+
+    const pagesToShow = new Set([1, totalPages, currentPage, currentPage - 1, currentPage + 1]);
+    let prevShown = 0;
+    for (let p = 1; p <= totalPages; p++) {
+      if (!pagesToShow.has(p)) continue;
+      if (p - prevShown > 1) {
+        const dots = document.createElement('span');
+        dots.className = 'pagination-dots';
+        dots.textContent = '…';
+        el.appendChild(dots);
+      }
+      el.appendChild(makeBtn(String(p), p, { active: p === currentPage }));
+      prevShown = p;
+    }
+
+    el.appendChild(makeBtn('›', Math.min(totalPages, currentPage + 1), { disabled: currentPage === totalPages }));
+  }
+
+  // ---------- search ----------
+
+  const searchInput = document.getElementById('search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      searchQuery = searchInput.value;
+      currentPage = 1;
+      renderGrid();
+    });
+  }
+
+  // ---------- lightbox ----------
+
+  function openLightbox(work, index) {
+    const lightbox = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    const tags = document.getElementById('lightbox-tags');
+    const likeBtn = document.getElementById('lightbox-like');
+    if (!lightbox || !img || !tags) return;
+    currentLightboxIndex = typeof index === 'number' ? index : currentAllItems.indexOf(work);
+
+    // Пролистывание в лайтбоксе идёт по всей категории (всем страницам),
+    // а не только по текущей странице сетки — поэтому если нужная картина
+    // на другой странице, сначала переключаем страницу сетки под капотом.
+    const targetPage = Math.floor(currentLightboxIndex / PER_PAGE) + 1;
+    if (targetPage !== currentPage) {
+      currentPage = targetPage;
+      renderGrid();
+    }
+
+    img.src = work.full;
+    // Подпись-тег под увеличенной картиной нужна только там, где жанры
+    // вперемешку (вкладка "All") — в конкретной категории она просто
+    // повторяет то, что и так очевидно, поэтому скрываем.
+    if (currentTag === 'All') {
+      tags.textContent = (work.tags[currentLang] || work.tags.en).join(' · ');
+      tags.hidden = false;
+    } else {
+      tags.textContent = '';
+      tags.hidden = true;
+    }
+    if (likeBtn) {
+      likeBtn.classList.toggle('liked', typeof Likes !== 'undefined' && Likes.isLiked(work.slug));
+      likeBtn.onclick = () => {
+        if (typeof Likes === 'undefined') return;
+        const liked = Likes.toggle(work.slug);
+        likeBtn.classList.toggle('liked', liked);
+        const relativeIndex = currentLightboxIndex - (currentPage - 1) * PER_PAGE;
+        const gridCard = document.querySelectorAll('.work-card')[relativeIndex];
+        if (gridCard) {
+          const heart = gridCard.querySelector('.like-btn');
+          if (heart) heart.classList.toggle('liked', liked);
+        }
+      };
+    }
+    lightbox.hidden = false;
+  }
+
+  function showLightboxAt(index) {
+    if (!currentAllItems.length) return;
+    const total = currentAllItems.length;
+    const wrapped = ((index % total) + total) % total;
+    openLightbox(currentAllItems[wrapped], wrapped);
+  }
+
+  function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox) lightbox.hidden = true;
+  }
+
+  const closeBtn = document.getElementById('lightbox-close');
+  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+
+  const prevBtn = document.getElementById('lightbox-prev');
+  const nextBtn = document.getElementById('lightbox-next');
+  if (prevBtn) prevBtn.addEventListener('click', () => showLightboxAt(currentLightboxIndex - 1));
+  if (nextBtn) nextBtn.addEventListener('click', () => showLightboxAt(currentLightboxIndex + 1));
+
+  const lightboxEl = document.getElementById('lightbox');
+  if (lightboxEl) {
+    lightboxEl.addEventListener('click', (e) => { if (e.target === lightboxEl) closeLightbox(); });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox && !lightbox.hidden) {
+      if (e.key === 'ArrowLeft') showLightboxAt(currentLightboxIndex - 1);
+      if (e.key === 'ArrowRight') showLightboxAt(currentLightboxIndex + 1);
+    }
+  });
+
+  // ---------- i18n ----------
+
+  function applyLanguage(lang) {
+    currentLang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const translated = t(key);
+      if (translated) el.textContent = translated;
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      el.placeholder = t(key);
+    });
+    document.querySelectorAll('.lang-switch button, .mobile-lang button').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+    renderFilters();
+    applyHero();
+    renderGrid();
+  }
+
+  document.querySelectorAll('.lang-switch button, .mobile-lang button').forEach(btn => {
+    btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
+  });
+
+  // ---------- mobile burger ----------
+
+  const burgerBtn = document.getElementById('burger-btn');
+  if (burgerBtn) {
+    burgerBtn.addEventListener('click', () => document.body.classList.toggle('menu-open'));
+  }
+
+  // ---------- init ----------
+
+  renderFilters();
+  applyHero();
+  renderGrid();
+});
