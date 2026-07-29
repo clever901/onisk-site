@@ -396,11 +396,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ---------- mobile burger ----------
-
-  const burgerBtn = document.getElementById('burger-btn');
-  if (burgerBtn) {
-    burgerBtn.addEventListener('click', () => document.body.classList.toggle('menu-open'));
-  }
+  // Делегирование на document — тот же надёжный способ, что и на Главной
+  // странице (script.js): сработает даже если кнопка перерисовывается,
+  // перекрывается другим элементом или клик приходится чуть мимо.
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('#burger-btn');
+    if (btn) {
+      document.body.classList.toggle('menu-open');
+    }
+  });
 
   // ---------- init ----------
 
