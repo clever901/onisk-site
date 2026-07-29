@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentLang = 'en';
   let currentTag = getTagFromUrl();
   let currentPage = 1;
-  let searchQuery = '';
 
   function getTagFromUrl() {
     const params = new URLSearchParams(window.location.search);
@@ -186,19 +185,12 @@ document.addEventListener('DOMContentLoaded', () => {
     renderGrid();
   }
 
-  // ---------- filtering + search ----------
+  // ---------- filtering ----------
 
   function getFilteredWorks() {
     let works = (typeof WORKS !== 'undefined' ? WORKS : []).slice();
     if (currentTag !== 'All') {
       works = works.filter(w => getEnTags(w).includes(currentTag));
-    }
-    if (searchQuery.trim()) {
-      const q = searchQuery.trim().toLowerCase();
-      works = works.filter(w => {
-        const tagsAllLangs = [].concat(w.tags.ru, w.tags.en, w.tags.uk).join(' ').toLowerCase();
-        return tagsAllLangs.includes(q);
-      });
     }
     return works;
   }
@@ -293,17 +285,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     el.appendChild(makeBtn('›', Math.min(totalPages, currentPage + 1), { disabled: currentPage === totalPages }));
-  }
-
-  // ---------- search ----------
-
-  const searchInput = document.getElementById('search-input');
-  if (searchInput) {
-    searchInput.addEventListener('input', () => {
-      searchQuery = searchInput.value;
-      currentPage = 1;
-      renderGrid();
-    });
   }
 
   // ---------- lightbox ----------
