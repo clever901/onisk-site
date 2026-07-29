@@ -525,9 +525,8 @@ body.body-portraits .hero-left-fade-portraits {
   inset: 0;
   z-index: 1;
   background:
-    radial-gradient(circle at 30% 35%, rgba(188,110,170,0.20), transparent 60%),
-    radial-gradient(circle at 75% 65%, rgba(204,175,152,0.16), transparent 55%);
-  filter: blur(46px);
+    radial-gradient(circle at 50% 55%, rgba(188,110,170,0.14), transparent 45%);
+  filter: blur(60px);
   pointer-events: none;
 }
 
