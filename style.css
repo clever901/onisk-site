@@ -248,7 +248,7 @@ a { color: inherit; }
   position: absolute;
   left: 0;
   top: 0;
-  height: 100%;
+  height: 100vh;
   width: 46%;
   object-fit: cover;
   object-position: right center;
@@ -610,11 +610,11 @@ body.body-portraits .hero-left-fade-portraits {
   position: relative;
   z-index: 5;
   text-align: center;
-  padding: 3rem 2rem 4rem;
+  padding: 1.5rem 2rem 2rem;
 }
 
 .hero-title {
-  margin: 4vh 0 0.5rem;
+  margin: 1.5vh 0 0.25rem;
   position: relative;
 }
 
@@ -638,7 +638,7 @@ body.body-portraits .hero-left-fade-portraits {
 }
 
 .hero-title img {
-  width: min(560px, 70vw);
+  width: min(420px, 55vw);
   height: auto;
   display: inline-block;
   filter: drop-shadow(0 0 28px rgba(188,110,170,0.35)) drop-shadow(0 0 50px rgba(188,110,170,0.15));
@@ -649,7 +649,7 @@ body.body-portraits .hero-left-fade-portraits {
   color: var(--accent-warm);
   letter-spacing: 0.06em;
   font-size: 1.15rem;
-  margin: 0 0 2rem;
+  margin: 0 0 1rem;
 }
 
 .section-divider {
@@ -658,7 +658,7 @@ body.body-portraits .hero-left-fade-portraits {
   justify-content: center;
   gap: 0.75rem;
   max-width: 340px;
-  margin: 0 auto 2.5rem;
+  margin: 0 auto 1.25rem;
 }
 
 .section-divider span {
@@ -681,10 +681,10 @@ body.body-portraits .hero-left-fade-portraits {
 
 .gallery-heading {
   font-family: var(--font-display);
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   font-weight: 400;
   letter-spacing: 0.15em;
-  margin: 0 0 1.75rem;
+  margin: 0 0 1rem;
   text-transform: uppercase;
 }
 
@@ -755,7 +755,7 @@ body.body-portraits .hero-left-fade-portraits {
 }
 
 .work-card {
-  transition: border-color 0.25s, box-shadow 0.25s;
+  transition: none;
 }
 
 .work-card:hover img {
@@ -778,7 +778,7 @@ body.body-portraits .hero-left-fade-portraits {
   .work-card:active {
     border-color: var(--accent-pink);
     box-shadow: 0 0 22px rgba(188,110,170,0.55), 0 0 8px rgba(188,110,170,0.35);
-    transition: border-color 0.15s, box-shadow 0.15s;
+    transition: none;
   }
 }
 
@@ -791,7 +791,76 @@ body.body-portraits .hero-left-fade-portraits {
 .work-card.touch-active {
   border-color: var(--accent-pink);
   box-shadow: 0 0 22px rgba(188,110,170,0.55), 0 0 8px rgba(188,110,170,0.35);
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: none;
+}
+
+/* Сердечко "лайк" на карточке работы — состояние хранится локально в
+   браузере посетителя (см. likes.js), общего счётчика по всем посетителям
+   нет. */
+.like-btn {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(6,6,15,0.45);
+  color: rgba(255,255,255,0.65);
+  font-size: 1.05rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: transform 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.like-btn:hover {
+  color: rgba(255,255,255,0.9);
+  background: rgba(6,6,15,0.6);
+}
+
+.like-btn.liked {
+  color: var(--accent-pink);
+  background: rgba(6,6,15,0.45);
+}
+
+.like-btn.liked:hover {
+  color: var(--accent-pink);
+}
+
+.like-btn:active {
+  transform: scale(1.15);
+}
+
+.like-btn-lightbox {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.4rem;
+}
+
+@media (max-width: 900px) {
+  .like-btn-lightbox {
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: 1.15rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .like-btn {
+    transition: none;
+  }
+  .like-btn:active {
+    transform: none;
+  }
 }
 
 .btn {
@@ -827,7 +896,7 @@ body.body-portraits .hero-left-fade-portraits {
   display: flex;
   gap: 4rem;
   align-items: center;
-  padding: 1.25rem 3rem 4rem;
+  padding: 0.25rem 3rem 3rem;
   max-width: 1300px;
   margin: 0 auto;
   min-height: auto;
@@ -900,6 +969,7 @@ body.body-portraits .hero-left-fade-portraits {
   padding: 3rem 3rem 5rem;
   max-width: 900px;
   margin: 0 auto;
+  scroll-margin-top: 100px;
 }
 
 .contacts-section h2 {
