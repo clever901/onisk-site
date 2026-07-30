@@ -42,12 +42,9 @@
       // applyHero) добавляется короткое затемнение (hero-veil) перед сменой
       // src, чтобы не было резкого "скачка" между картинками.
       window.HeroTransition = (function () {
-        // Переход по фиксированному таймеру (не зависит от того, успела ли
-        // картинка загрузиться/была ли она уже в кэше браузера), поэтому
-        // переключение категорий выглядит одинаково что "вперёд", что "назад".
-        var FADE_IN_MS = 380;  // время затемнения (совпадает с transition в CSS)
-        var HOLD_MS = 120;     // краткая пауза под непрозрачной шторкой, пока меняется src
-        var FADE_OUT_DELAY = FADE_IN_MS + HOLD_MS;
+        var FADE_MS = 380;    // время появления/исчезновения затемнения (совпадает с transition в CSS)
+        var MIN_HOLD_MS = 220; // минимальное время под шторкой, чтобы переход не выглядел дёрганым, даже если картинка уже в кэше
+        var MAX_WAIT_MS = 4000; // страховка: не ждать картинку дольше этого, если что-то пошло не так (плохая сеть/ошибка)
 
         function veilOn() {
           var veil = document.getElementById('hero-veil');
@@ -59,15 +56,49 @@
           if (veil) veil.classList.remove('hero-veil-visible');
         }
 
-        // applySrc: функция, которая меняет src у картинок. Вызывается
-        // ровно тогда, когда шторка уже полностью непрозрачна, так что
-        // подмена происходит незаметно для пользователя.
+        // Промис, который разрешается, когда картинка реально готова к показу.
+        // requestAnimationFrame x2 после назначения src нужен, чтобы даже
+        // картинки из кэша браузера (у которых complete становится true
+        // мгновенно, в этом же такте) гарантированно проверялись уже после
+        // отрисовки кадра — иначе поведение "вперёд"/"назад" отличается.
+        function whenReady(img) {
+          return new Promise(function (resolve) {
+            if (!img) { resolve(); return; }
+            var done = false;
+            function finish() {
+              if (done) return;
+              done = true;
+              resolve();
+            }
+            var timeoutId = setTimeout(finish, MAX_WAIT_MS);
+            requestAnimationFrame(function () {
+              requestAnimationFrame(function () {
+                if (img.complete && img.naturalWidth !== 0) {
+                  clearTimeout(timeoutId);
+                  finish();
+                } else {
+                  img.addEventListener('load', function () { clearTimeout(timeoutId); finish(); }, { once: true });
+                  img.addEventListener('error', function () { clearTimeout(timeoutId); finish(); }, { once: true });
+                }
+              });
+            });
+          });
+        }
+
+        // applySrc: функция, которая меняет src у картинок и возвращает
+        // массив img-элементов, за загрузкой которых нужно проследить перед
+        // тем, как снять шторку.
         function transition(applySrc) {
           veilOn();
           setTimeout(function () {
-            if (applySrc) applySrc();
-            setTimeout(veilOff, HOLD_MS);
-          }, FADE_IN_MS);
+            var imgs = (applySrc ? applySrc() : []) || [];
+            var holdStart = performance.now();
+            Promise.all(imgs.map(whenReady)).then(function () {
+              var elapsed = performance.now() - holdStart;
+              var remaining = Math.max(0, MIN_HOLD_MS - elapsed);
+              setTimeout(veilOff, remaining);
+            });
+          }, FADE_MS);
         }
 
         // Совместимость с первой загрузкой страницы: картинки должны быть
@@ -169,7 +200,7 @@
 <script src="data/works.js"></script>
 <script src="i18n/i18n.js"></script>
 <script src="likes.js"></script>
-<script src="gallery.js?v=15"></script>
+<script src="gallery.js?v=16"></script>
 <script src="sparkle-cursor.js"></script>
 </body>
 </html>
