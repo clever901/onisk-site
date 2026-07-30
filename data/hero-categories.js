@@ -22,8 +22,8 @@ const HERO_CATEGORIES = {
     hareScaleDown: true
   },
   'Portraits': {
-    left: 'images/hero/portraits-cat.webp',
-    right: 'images/hero/portraits-blue-orb.webp',
+    left: 'images/hero/portraits-glow-left.webp',
+    right: 'images/hero/portraits-glow-right.webp',
     noMoon: true,
     flatBg: true,
     denseStars: true,
