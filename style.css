@@ -337,20 +337,22 @@ a { color: inherit; }
 .hero-portraits-left-fit {
   /* aspect-ratio делает БОКС изображения точно равным видимой области фото —
      без "мёртвой" леттербокс-зоны, которая раньше давала жёсткий обрыв
-     между реальным краем фотографии и началом fade-градиента. */
-  height: 94%;
-  top: 3%;
+     между реальным краем фотографии и началом fade-градиента. Увеличено
+     покрытие (100% высоты, растяжка ближе к центру), чтобы в середине
+     страницы Portraits не оставалось пустоты. */
+  height: 100%;
+  top: 0;
   width: auto;
-  aspect-ratio: 1600 / 2124;
+  aspect-ratio: 1920 / 2400;
   object-fit: cover;
   object-position: left center;
   mask-image:
-    linear-gradient(to right, black 0%, black 55%, rgba(0,0,0,0.5) 80%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, black 10%, black 82%, transparent 98%);
+    linear-gradient(to right, black 0%, black 68%, rgba(0,0,0,0.5) 88%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 99%);
   mask-composite: intersect;
   -webkit-mask-image:
-    linear-gradient(to right, black 0%, black 55%, rgba(0,0,0,0.5) 80%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, black 10%, black 82%, transparent 98%);
+    linear-gradient(to right, black 0%, black 68%, rgba(0,0,0,0.5) 88%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 99%);
   -webkit-mask-composite: source-in;
 }
 
@@ -371,10 +373,10 @@ body.body-portraits .hero-right-fade-portraits {
   display: block;
   background: linear-gradient(to right,
     transparent 0%,
-    transparent 40%,
-    rgba(6,6,15,0.35) 62%,
-    rgba(6,6,15,0.75) 82%,
-    var(--bg) 98%
+    transparent 55%,
+    rgba(6,6,15,0.35) 74%,
+    rgba(6,6,15,0.75) 88%,
+    var(--bg) 99%
   );
 }
 
@@ -395,10 +397,10 @@ body.body-portraits .hero-left-fade-portraits {
   display: block;
   background: linear-gradient(to left,
     transparent 0%,
-    transparent 40%,
-    rgba(6,6,15,0.35) 62%,
-    rgba(6,6,15,0.75) 82%,
-    var(--bg) 98%
+    transparent 55%,
+    rgba(6,6,15,0.35) 74%,
+    rgba(6,6,15,0.75) 88%,
+    var(--bg) 99%
   );
 }
 
@@ -411,22 +413,22 @@ body.body-portraits .hero-left-fade-portraits {
 }
 
 .hero-portraits-right-fit {
-  /* Тот же надёжный приём, что и для левой картинки: aspect-ratio на боксе
-     вместо transform+mask — исключает "мёртвую" леттербокс-зону и
-     рассинхронизацию маски с реальными пикселями фото. */
-  height: 94%;
-  top: 3%;
+  /* Тот же приём, что и для левой картинки (см. комментарий там):
+     100% высоты и растяжка ближе к центру, чтобы не было пустоты
+     посередине страницы Portraits. */
+  height: 100%;
+  top: 0;
   width: auto;
-  aspect-ratio: 1600 / 2124;
+  aspect-ratio: 1920 / 2400;
   object-fit: cover;
   object-position: right center;
   mask-image:
-    linear-gradient(to left, black 0%, black 55%, rgba(0,0,0,0.5) 80%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, black 10%, black 82%, transparent 98%);
+    linear-gradient(to left, black 0%, black 68%, rgba(0,0,0,0.5) 88%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 99%);
   mask-composite: intersect;
   -webkit-mask-image:
-    linear-gradient(to left, black 0%, black 55%, rgba(0,0,0,0.5) 80%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, black 10%, black 82%, transparent 98%);
+    linear-gradient(to left, black 0%, black 68%, rgba(0,0,0,0.5) 88%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 99%);
   -webkit-mask-composite: source-in;
 }
 
