@@ -44,19 +44,26 @@ document.addEventListener('DOMContentLoaded', () => {
   // ---------- hero per category ----------
 
   function applyHero() {
+    if (window.HeroTransition) {
+      window.HeroTransition.transition(applyHeroVisuals);
+    } else {
+      applyHeroVisuals();
+    }
+  }
+
+  function applyHeroVisuals() {
     const heroData = (typeof HERO_CATEGORIES !== 'undefined' && HERO_CATEGORIES[currentTag]) || HERO_CATEGORIES['All'];
     const left = document.getElementById('hero-img-left');
     const right = document.getElementById('hero-img-right');
-    // На самой первой загрузке страницы src уже выставлен синхронным
-    // inline-скриптом в gallery.html (чтобы фон начал грузиться раньше).
-    // Здесь переустанавливаем его на всякий случай — если категория не
-    // изменилась, браузер не будет качать картинку заново (тот же src),
-    // а если изменилась (клик по вкладке фильтра без перезагрузки страницы) —
-    // именно так фон и обновляется.
-    if (window.HeroTransition) window.HeroTransition.veilOn();
+    // Смена src и всех классов фона происходит здесь — эта функция
+    // вызывается ровно в момент, когда затемняющая шторка (hero-veil)
+    // уже полностью непрозрачна (см. HeroTransition.transition в
+    // gallery.html), поэтому подмена картинки и классов не видна
+    // пользователю независимо от того, была ли картинка уже в кэше.
     if (left && heroData) left.src = heroData.left;
     if (right && heroData) right.src = heroData.right;
-    if (window.HeroTransition) window.HeroTransition.revealWhenLoaded([left, right].filter(Boolean));
+    if (left) left.classList.add('hero-img-loaded');
+    if (right) right.classList.add('hero-img-loaded');
 
     const moon = document.querySelector('.hero-moon');
     if (moon) moon.style.display = (heroData && heroData.noMoon) ? 'none' : '';
