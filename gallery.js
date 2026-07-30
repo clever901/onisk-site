@@ -126,8 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const label = document.getElementById('gallery-category-label');
     if (label) {
-      label.textContent = currentTag === 'All' ? '' : translateTag(currentTag);
-      label.style.display = currentTag === 'All' ? 'none' : 'block';
+      label.textContent = currentTag === 'All' ? '\u00A0' : translateTag(currentTag);
+      label.style.visibility = currentTag === 'All' ? 'hidden' : 'visible';
     }
 
     const backLink = document.getElementById('back-link');
