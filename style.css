@@ -741,7 +741,7 @@ body.body-portraits .hero-left-fade-portraits {
 .tag-filter-desktop {
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  gap: 3rem;
   flex-wrap: wrap;
 }
 
@@ -752,8 +752,8 @@ body.body-portraits .hero-left-fade-portraits {
   color: var(--text-secondary);
   cursor: pointer;
   font-family: var(--font-display);
-  font-size: 1.05rem;
-  letter-spacing: 0.02em;
+  font-size: 1.35rem;
+  letter-spacing: 0.03em;
   padding-bottom: 6px;
   border-bottom: 1px solid transparent;
   text-decoration: none;
