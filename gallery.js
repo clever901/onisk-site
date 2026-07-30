@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (right && heroData) right.src = heroData.right;
     if (left) left.classList.add('hero-img-loaded');
     if (right) right.classList.add('hero-img-loaded');
-
     const moon = document.querySelector('.hero-moon');
     if (moon) moon.style.display = (heroData && heroData.noMoon) ? 'none' : '';
 
@@ -142,6 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       backLink.querySelector('span').textContent = t(backLink.querySelector('span').getAttribute('data-i18n'));
     }
+
+    return [left, right];
   }
 
   // ---------- filters ----------
