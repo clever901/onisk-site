@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Onisk — Gallery</title>
-<link rel="stylesheet" href="style.css?v=37" />
+<link rel="stylesheet" href="style.css?v=38" />
 </head>
 <body>
 
@@ -42,51 +42,50 @@
       // applyHero) добавляется короткое затемнение (hero-veil) перед сменой
       // src, чтобы не было резкого "скачка" между картинками.
       window.HeroTransition = (function () {
-        var MIN_VEIL_MS = 260; // минимальное время, чтобы затемнение точно успело быть заметным
-        var veilShownAt = 0;
-        function hideVeil() {
-          var veil = document.getElementById('hero-veil');
-          if (!veil) return;
-          var elapsed = performance.now() - veilShownAt;
-          if (elapsed >= MIN_VEIL_MS) {
-            veil.classList.remove('hero-veil-visible');
-          } else {
-            setTimeout(function () {
-              veil.classList.remove('hero-veil-visible');
-            }, MIN_VEIL_MS - elapsed);
-          }
-        }
-        function revealWhenLoaded(imgs) {
-          var remaining = imgs.length;
-          function done(img) {
-            if (img) img.classList.add('hero-img-loaded');
-            remaining--;
-            if (remaining <= 0) hideVeil();
-          }
-          if (remaining === 0) hideVeil();
-          imgs.forEach(function (img) {
-            img.classList.remove('hero-img-loaded');
-            if (img.complete && img.naturalWidth !== 0) {
-              done(img);
-            } else {
-              img.addEventListener('load', function () { done(img); }, { once: true });
-              img.addEventListener('error', function () { done(img); }, { once: true });
-            }
-          });
-        }
+        // Переход по фиксированному таймеру (не зависит от того, успела ли
+        // картинка загрузиться/была ли она уже в кэше браузера), поэтому
+        // переключение категорий выглядит одинаково что "вперёд", что "назад".
+        var FADE_IN_MS = 380;  // время затемнения (совпадает с transition в CSS)
+        var HOLD_MS = 120;     // краткая пауза под непрозрачной шторкой, пока меняется src
+        var FADE_OUT_DELAY = FADE_IN_MS + HOLD_MS;
+
         function veilOn() {
           var veil = document.getElementById('hero-veil');
           if (veil) veil.classList.add('hero-veil-visible');
-          veilShownAt = performance.now();
         }
-        return { revealWhenLoaded: revealWhenLoaded, veilOn: veilOn };
+
+        function veilOff() {
+          var veil = document.getElementById('hero-veil');
+          if (veil) veil.classList.remove('hero-veil-visible');
+        }
+
+        // applySrc: функция, которая меняет src у картинок. Вызывается
+        // ровно тогда, когда шторка уже полностью непрозрачна, так что
+        // подмена происходит незаметно для пользователя.
+        function transition(applySrc) {
+          veilOn();
+          setTimeout(function () {
+            if (applySrc) applySrc();
+            setTimeout(veilOff, HOLD_MS);
+          }, FADE_IN_MS);
+        }
+
+        // Совместимость с первой загрузкой страницы: картинки должны быть
+        // видны сразу (без прежней логики fade-in по событию load).
+        function showImmediately(imgs) {
+          imgs.forEach(function (img) {
+            if (img) img.classList.add('hero-img-loaded');
+          });
+        }
+
+        return { transition: transition, showImmediately: showImmediately, veilOn: veilOn, veilOff: veilOff };
       })();
 
       if (heroData) {
         if (left) left.src = heroData.left;
         if (right) right.src = heroData.right;
       }
-      window.HeroTransition.revealWhenLoaded([left, right].filter(Boolean));
+      window.HeroTransition.showImmediately([left, right].filter(Boolean));
     })();
   </script>
   <div class="hero-top-fade-left"></div>
@@ -170,7 +169,7 @@
 <script src="data/works.js"></script>
 <script src="i18n/i18n.js"></script>
 <script src="likes.js"></script>
-<script src="gallery.js?v=14"></script>
+<script src="gallery.js?v=15"></script>
 <script src="sparkle-cursor.js"></script>
 </body>
 </html>
