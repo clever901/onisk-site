@@ -4,6 +4,18 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Onisk — Gallery</title>
+<style>
+  /* Критическое правило: скрыть десктопные картинки на мобильном
+     СРАЗУ, при самом первом разборе страницы — ещё до того, как
+     успеет загрузиться основной style.css. Без этого на долю секунды
+     мелькает нестилизованная десктопная картинка ("вспышка сырого
+     контента"). Значения дублируют то, что уже есть в style.css —
+     это специально, чтобы работало независимо от скорости загрузки
+     остального CSS. */
+  @media (max-width: 900px) {
+    .hero-bg-portrait, .hero-bg-cat { display: none !important; }
+  }
+</style>
 <link rel="stylesheet" href="style.css?v=51" />
 </head>
 <body>
