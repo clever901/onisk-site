@@ -133,11 +133,29 @@
 
         return { transition: transition, showImmediately: showImmediately, veilOn: veilOn, veilOff: veilOff };
       })();
-      if (heroData) {
+    if (heroData) {
         if (left) left.src = heroData.left;
         if (right) right.src = heroData.right;
       }
       window.HeroTransition.showImmediately([left, right].filter(Boolean));
+
+      // Мгновенно проставляем класс категории на body — тот же набор
+      // классов, что позже (при переключении вкладок) ставит gallery.js.
+      // Раньше это происходило только в gallery.js на DOMContentLoaded,
+      // из-за чего при обычной (не быстрой SPA) загрузке страницы был
+      // заметен короткий момент без картинки/не с тем фоном. Здесь этот
+      // скрипт выполняется сразу при разборе HTML, до загрузки gallery.js.
+      if (heroData) {
+        var b = document.body;
+        b.classList.toggle('body-dark-art', !!heroData.coldGraphite);
+        b.classList.toggle('body-fantasy', !!heroData.mutedForest);
+        b.classList.toggle('body-surreal', !!heroData.petrolTeal);
+        b.classList.toggle('body-cartoon', !!heroData.dreamyViolet);
+        b.classList.toggle('body-fashion', !!heroData.plumGraphite);
+        b.classList.toggle('body-portraits', !!heroData.portraitsFit);
+        b.classList.toggle('body-portraits-narrow', !!heroData.narrowFit);
+        b.classList.toggle('body-gallery-all', !!heroData.catTint);
+      }
     })();
   </script>
   <div class="hero-top-fade-left"></div>
