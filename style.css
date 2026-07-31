@@ -1574,13 +1574,6 @@ body.body-portraits-narrow .hero-left-fade-portraits {
     display: none !important;
   }
 
-  /* Фон по умолчанию — на случай долей секунды до того, как JS определит
-     категорию и добавит свой класс (см. правила ниже). */
-  .hero {
-    background-image: url('images/hero/mobile/home-mobile-bg.webp?v=6') !important;
-    background-position: center !important;
-  }
-
   body.body-fantasy .hero-bg-portrait,
   body.body-fantasy .hero-bg-cat,
   body.page-home .hero-bg-portrait,
