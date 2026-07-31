@@ -110,6 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.toggle('body-fashion', !!(heroData && heroData.plumGraphite));
     document.body.classList.toggle('body-portraits', !!(heroData && heroData.portraitsFit));
     document.body.classList.toggle('body-portraits-narrow', !!(heroData && heroData.narrowFit));
+    document.body.classList.toggle('body-portraits-narrow', !!(heroData && heroData.narrowFit));
     document.body.classList.toggle('body-gallery-all', !!(heroData && heroData.catTint));
     if (left) left.classList.toggle('hero-plum-tint', !!(heroData && heroData.plumGraphite));
     if (right) right.classList.toggle('hero-botanical-tint', !!(heroData && heroData.plumGraphite));
