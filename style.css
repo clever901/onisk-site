@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Cormorant:wght@300;400&display=swap');
 
 :root {
-  --bg: #06060f;
-  --bg-panel: #0d0c1a;
+  --bg: #0e0e1c;
+  --bg-panel: #16142a;
   --text-primary: #f2eff6;
   --text-secondary: #b8b4bd;
   --accent-pink: #bc6eaa;
@@ -24,10 +24,15 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   position: relative;
+  overscroll-behavior-y: none;
+}
+
+html {
+  overscroll-behavior-y: none;
 }
 
 body.body-dark-art {
-  background: #07111a;
+  background: #0e1c2a;
 }
 
 body.body-dark-art::before {
@@ -54,7 +59,7 @@ body.body-dark-art .hero::before {
 }
 
 body.body-fantasy {
-  background: #0c1110;
+  background: #161f1d;
 }
 
 body.body-fantasy::before {
@@ -82,7 +87,7 @@ body.body-fantasy .hero::before {
 }
 
 body.body-surreal {
-  background: #061116;
+  background: #0c1e26;
 }
 
 body.body-surreal::before {
@@ -110,7 +115,7 @@ body.body-surreal .hero::before {
 }
 
 body.body-cartoon {
-  background: #0a0d1a;
+  background: #14192a;
 }
 
 body.body-cartoon::before {
@@ -138,7 +143,7 @@ body.body-cartoon .hero::before {
 }
 
 body.body-fashion {
-  background: #0a0d0e;
+  background: #14181a;
 }
 
 body.body-fashion::before {
@@ -1560,6 +1565,22 @@ body.body-portraits-narrow .hero-left-fade-portraits {
 }
 
 @media (max-width: 900px) {
+  /* Десктопные картинки (левая/правая) скрываются сразу, без ожидания
+     JS-класса на body — это устраняет мерцание "не той" картинки при
+     обычной (не быстрой SPA-style) загрузке страницы, например при
+     переходе по ссылке "Back to Gallery". */
+  .hero-bg-portrait,
+  .hero-bg-cat {
+    display: none !important;
+  }
+
+  /* Фон по умолчанию — на случай долей секунды до того, как JS определит
+     категорию и добавит свой класс (см. правила ниже). */
+  .hero {
+    background-image: url('images/hero/mobile/home-mobile-bg.webp?v=6') !important;
+    background-position: center !important;
+  }
+
   body.body-fantasy .hero-bg-portrait,
   body.body-fantasy .hero-bg-cat,
   body.page-home .hero-bg-portrait,
