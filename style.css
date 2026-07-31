@@ -251,7 +251,7 @@ a { color: inherit; }
   left: 0;
   top: 0;
   height: 100vh;
-  width: 54%;
+  width: 46%;
   object-fit: cover;
   object-position: right center;
   mask-image:
@@ -270,7 +270,7 @@ a { color: inherit; }
   right: 0;
   top: 0;
   height: 100%;
-  width: 54%;
+  width: 49%;
   object-fit: cover;
   object-position: left top;
   mask-image:
