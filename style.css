@@ -369,7 +369,7 @@ a { color: inherit; }
   pointer-events: none;
 }
 
-body.body-portraits .hero-right-fade-portraits {
+body.body-portraits-narrow .hero-right-fade-portraits {
   display: block;
   background: linear-gradient(to right,
     transparent 0%,
@@ -393,7 +393,7 @@ body.body-portraits .hero-right-fade-portraits {
   pointer-events: none;
 }
 
-body.body-portraits .hero-left-fade-portraits {
+body.body-portraits-narrow .hero-left-fade-portraits {
   display: block;
   background: linear-gradient(to left,
     transparent 0%,
