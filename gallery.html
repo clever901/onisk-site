@@ -42,7 +42,8 @@
       // applyHero) добавляется короткое затемнение (hero-veil) перед сменой
       // src, чтобы не было резкого "скачка" между картинками.
       window.HeroTransition = (function () {
-        var FADE_MS = 420;     // время плавного исчезновения/появления самой картинки (совпадает с CSS transition для .hero-bg-portrait/.hero-bg-cat)
+        var FADE_MS = 750;      // время плавного исчезновения/появления самой картинки (совпадает с CSS transition для .hero-bg-portrait/.hero-bg-cat, ниже)
+        var SETTLE_MS = 180;    // короткая пауза после того, как обе картинки реально загрузились — даёт браузеру время их отрисовать, прежде чем показать, чтобы не было рассинхрона
         var MAX_WAIT_MS = 4000; // страховка: не ждать картинку дольше этого, если что-то пошло не так (плохая сеть/ошибка)
 
         // Промис, который разрешается, когда картинка реально готова к показу.
@@ -93,7 +94,9 @@
           setTimeout(function () {
             var imgs = (applySrc ? applySrc() : []) || [];
             Promise.all(imgs.map(whenReady)).then(function () {
-              imgs.forEach(function (img) { if (img) img.classList.add('hero-img-loaded'); });
+              setTimeout(function () {
+                imgs.forEach(function (img) { if (img) img.classList.add('hero-img-loaded'); });
+              }, SETTLE_MS);
             });
           }, FADE_MS);
         }
