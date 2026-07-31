@@ -269,7 +269,17 @@ a { color: inherit; }
   -webkit-mask-composite: source-in;
   opacity: 0.9;
 }
-
+.hero-glass-fit {
+  object-position: 15% 20%;
+  mask-image:
+    linear-gradient(to right, transparent 0%, black 6%, black 25%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.2) 80%, transparent 100%),
+    linear-gradient(to bottom, black 0%, black 82%, transparent 100%);
+  mask-composite: intersect;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, black 6%, black 25%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.2) 80%, transparent 100%),
+    linear-gradient(to bottom, black 0%, black 82%, transparent 100%);
+  -webkit-mask-composite: source-in;
+}
 .hero-bg-cat {
   position: absolute;
   right: 0;
