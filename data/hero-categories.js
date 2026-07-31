@@ -25,9 +25,8 @@ const HERO_CATEGORIES = {
     left: 'images/hero/portraits-glow-left.webp',
     right: 'images/hero/portraits-glow-right.webp',
     noMoon: true,
-    flatBg: true,
-    denseStars: true,
-    portraitsFit: true
+    portraitsFit: true,
+    denseStars: true
   },
   'Fantasy': {
     left: 'images/hero/fantasy-bird-woman-v2.webp',
