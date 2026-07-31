@@ -60,10 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // уже полностью непрозрачна (см. HeroTransition.transition в
     // gallery.html), поэтому подмена картинки и классов не видна
     // пользователю независимо от того, была ли картинка уже в кэше.
-    if (left && heroData) left.src = heroData.left;
+   if (left && heroData) left.src = heroData.left;
     if (right && heroData) right.src = heroData.right;
-    if (left) left.classList.add('hero-img-loaded');
-    if (right) right.classList.add('hero-img-loaded');
     const moon = document.querySelector('.hero-moon');
     if (moon) moon.style.display = (heroData && heroData.noMoon) ? 'none' : '';
 
