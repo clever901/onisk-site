@@ -42,19 +42,8 @@
       // applyHero) добавляется короткое затемнение (hero-veil) перед сменой
       // src, чтобы не было резкого "скачка" между картинками.
       window.HeroTransition = (function () {
-        var FADE_MS = 380;    // время появления/исчезновения затемнения (совпадает с transition в CSS)
-        var MIN_HOLD_MS = 220; // минимальное время под шторкой, чтобы переход не выглядел дёрганым, даже если картинка уже в кэше
+        var FADE_MS = 420;     // время плавного исчезновения/появления самой картинки (совпадает с CSS transition для .hero-bg-portrait/.hero-bg-cat)
         var MAX_WAIT_MS = 4000; // страховка: не ждать картинку дольше этого, если что-то пошло не так (плохая сеть/ошибка)
-
-        function veilOn() {
-          var veil = document.getElementById('hero-veil');
-          if (veil) veil.classList.add('hero-veil-visible');
-        }
-
-        function veilOff() {
-          var veil = document.getElementById('hero-veil');
-          if (veil) veil.classList.remove('hero-veil-visible');
-        }
 
         // Промис, который разрешается, когда картинка реально готова к показу.
         // requestAnimationFrame x2 после назначения src нужен, чтобы даже
@@ -85,31 +74,39 @@
           });
         }
 
+        // Никакой тёмной "шторки" больше нет — вместо неё картинки сами
+        // мягко гаснут (opacity 1 -> 0), под ними на долю секунды видна
+        // только тонкая цветная дымка (hero-blur-wash), затем меняется src
+        // и картинка плавно проявляется обратно (opacity 0 -> 1). Это тот
+        // же переход, что и при самой первой загрузке страницы, просто
+        // запускается ещё раз при каждом переключении категории.
+        //
         // applySrc: функция, которая меняет src у картинок и возвращает
         // массив img-элементов, за загрузкой которых нужно проследить перед
-        // тем, как снять шторку.
+        // тем, как проявить их обратно.
         function transition(applySrc) {
-          veilOn();
+          var left = document.getElementById('hero-img-left');
+          var right = document.getElementById('hero-img-right');
+          var fading = [left, right].filter(Boolean);
+          fading.forEach(function (img) { img.classList.remove('hero-img-loaded'); });
+
           setTimeout(function () {
             var imgs = (applySrc ? applySrc() : []) || [];
-            var holdStart = performance.now();
             Promise.all(imgs.map(whenReady)).then(function () {
-              var elapsed = performance.now() - holdStart;
-              var remaining = Math.max(0, MIN_HOLD_MS - elapsed);
-              setTimeout(veilOff, remaining);
+              imgs.forEach(function (img) { if (img) img.classList.add('hero-img-loaded'); });
             });
           }, FADE_MS);
         }
 
         // Совместимость с первой загрузкой страницы: картинки должны быть
-        // видны сразу (без прежней логики fade-in по событию load).
+        // видны сразу (без плавного появления).
         function showImmediately(imgs) {
           imgs.forEach(function (img) {
             if (img) img.classList.add('hero-img-loaded');
           });
         }
 
-        return { transition: transition, showImmediately: showImmediately, veilOn: veilOn, veilOff: veilOff };
+        return { transition: transition, showImmediately: showImmediately };
       })();
 
       if (heroData) {
