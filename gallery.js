@@ -74,8 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (right) right.classList.toggle('hero-cat-tint', !!(heroData && heroData.catTint));
     if (right) right.classList.toggle('hero-scale-down', !!(heroData && heroData.rightScaleDown));
     if (left) left.classList.toggle('hero-hare-fit', !!(heroData && heroData.hareScaleDown));
-    if (left) left.classList.toggle('hero-portraits-left-fit', !!(heroData && heroData.portraitsFit));
-    if (right) right.classList.toggle('hero-portraits-right-fit', !!(heroData && heroData.portraitsFit));
+   if (left) left.classList.toggle('hero-portraits-left-fit', !!(heroData && heroData.narrowFit));
+    if (right) right.classList.toggle('hero-portraits-right-fit', !!(heroData && heroData.narrowFit));
     
     const decorLeft = document.getElementById('hero-decor-left');
     const decorRight = document.getElementById('hero-decor-right');
@@ -109,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.toggle('body-cartoon', !!(heroData && heroData.dreamyViolet));
     document.body.classList.toggle('body-fashion', !!(heroData && heroData.plumGraphite));
     document.body.classList.toggle('body-portraits', !!(heroData && heroData.portraitsFit));
+    document.body.classList.toggle('body-portraits-narrow', !!(heroData && heroData.narrowFit));
     document.body.classList.toggle('body-gallery-all', !!(heroData && heroData.catTint));
     if (left) left.classList.toggle('hero-plum-tint', !!(heroData && heroData.plumGraphite));
     if (right) right.classList.toggle('hero-botanical-tint', !!(heroData && heroData.plumGraphite));
